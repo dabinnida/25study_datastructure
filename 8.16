@@ -1,0 +1,81 @@
+https://leetcode.com/problems/missing-number/description/
+https://leetcode.com/problems/roman-to-integer/description/?envType=problem-list-v2&envId=hash-table
+https://leetcode.com/problems/missing-number/solutions/1637159/python-solution-using-bloom-filters-cheeky-but-ultimately-a-good-learning-exercise/
+
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        vector<bool> isNumberExist(nums.size());
+        int result;
+        for(auto i:nums){
+            isNumberExist[i] = true;
+        }
+        for(int j=0;j<isNumberExist.size();j++){
+            if(isNumberExist[j]==false){
+                result = j;
+                break;
+            }
+        }
+        return result;
+    }
+};
+
+class Solution {
+public:
+    int romanToInt(string s) {
+        unordered_map<string, int> symbolTable;
+        symbolTable["I"] = 1;
+        symbolTable["II"] = 2;
+        symbolTable["IV"] = 4;
+        symbolTable["IX"] = 9;
+
+        symbolTable["V"] = 5;
+
+        symbolTable["X"] = 10;
+        symbolTable["XX"] = 20;
+        symbolTable["XL"] = 40;
+        symbolTable["XC"] = 90;
+
+        symbolTable["L"] = 50;
+
+        symbolTable["C"] = 100;
+        symbolTable["CC"] = 200;
+        symbolTable["CD"] = 400;
+        symbolTable["CM"] = 900;
+
+        symbolTable["D"] = 500;
+        symbolTable["M"] = 1000;
+        symbolTable["MM"] = 2000;
+
+        int sum = 0;
+        for(int i=0;i<s.size();){
+            if(s.size() > i+1){
+                string explore;
+                explore = s.substr(i,1) + s.substr(i+1,1);
+
+                // 2개씩 탐색했을 때 쌍이 있는 경우
+                auto item = symbolTable.find(explore);
+                if(item != symbolTable.end()){
+                    sum += symbolTable[explore];
+                }else{ // 2개씩 탐색했는데 쌍이 없는 경우 하나만 탐색하고 나가기
+                    sum += symbolTable[s.substr(i,1)];
+
+                    std::cout << explore << std::endl;
+                    std::cout << sum << std::endl;
+
+                    i+=1;
+                    continue;
+                }
+
+                std::cout << explore << std::endl;
+                std::cout << sum << std::endl;
+
+                i += 2;
+            }else{
+                sum += symbolTable[s.substr(i,1)];
+                i+=1;
+            }
+        }
+        return sum;
+    }
+};
