@@ -1,0 +1,19 @@
+분할정복
+https://leetcode.com/problem-list/divide-and-conquer/
+https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/description/?envType=problem-list-v2&envId=divide-and-conque
+
+class Solution {
+public:
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return build(nums, 0, nums.size());
+    }
+
+    TreeNode* build(vector<int>& nums, int start, int end) {
+        if (start == end) return nullptr;
+        int mid = (start + end) / 2;
+        TreeNode* root = new TreeNode(nums[mid]);
+        root->left = build(nums, start, mid);
+        root->right = build(nums, mid + 1, end);
+        return root;
+    }
+};
